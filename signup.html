@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediCore – Sign Up</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <div class="branding">
+    <img src="logo.png" alt="MediCore Logo" />
+    <h1>MediCore</h1>
+  </div>
+</header>
+
+<main>
+  <div class="auth-box">
+    <h2>Create Account</h2>
+    <form id="signup-form">
+      <input id="fullName" type="text" name="fullName" placeholder="Full Name" required />
+      <input id="email" type="email" name="email" placeholder="Email" required />
+      <div class="password-wrapper" style="position: relative;">
+        <input id="password" type="password" name="password" placeholder="Password" required/>
+        <img 
+          src="eye.png" 
+          id="togglePassword" 
+          alt="Toggle Password" 
+        />
+      </div>
+      <button type="submit">Sign Up</button>
+      <p>Already have an account? <a href="index.html">Sign In</a></p>
+    </form>
+  </div>
+</main>
+
+<script>
+  const signupForm = document.getElementById("signup-form");
+  const togglePassword = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("password");
+
+  signupForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const fullName = signupForm.fullName.value.trim();
+    const email = signupForm.email.value.trim();
+    const password = signupForm.password.value;
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+
+    if (!fullName) {
+      alert("Full name is required.");
+      return;
+    }
+    if (!emailPattern.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    if (!strongPasswordPattern.test(password)) {
+      alert("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullName, email, password })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message);
+        sessionStorage.setItem('signupEmail', email);
+        window.location.href = 'otp.html';
+      } else {
+        alert(data.error || 'Signup failed');
+      }
+    } catch (error) {
+      alert('Something went wrong. Please try again.');
+      console.error(error);
+    }
+  });
+
+  togglePassword.addEventListener("click", () => {
+    const type = passwordInput.type === "password" ? "text" : "password";
+    passwordInput.type = type;
+
+    // Change icon if you have a different image for open/close eye
+    togglePassword.src = type === "password" ? "eye.png" : "eye-off.png";
+  });
+</script>
+
+</body>
+</html>
+
+

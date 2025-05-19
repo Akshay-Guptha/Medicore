@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediCore – Verify OTP</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header>
+  <div class="branding">
+    <img src="logo.png" alt="MediCore Logo" />
+    <h1>MediCore</h1>
+  </div>
+</header>
+
+<main>
+  <div class="auth-box">
+    <h2>Verify OTP</h2>
+    <p>Enter the OTP sent to your email</p>
+    <form id="otp-form">
+      <input id="email" type="email" name="email" placeholder="Your email" required readonly />
+      <input id="otp" type="text" name="otp" placeholder="Enter 6-digit OTP" required maxlength="6" />
+      <button type="submit">Verify</button>
+    </form>
+  </div>
+</main>
+
+<script>
+  // Autofill email from sessionStorage and make readonly
+  const savedEmail = sessionStorage.getItem('signupEmail');
+  const emailInput = document.getElementById('email');
+  if (savedEmail) {
+    emailInput.value = savedEmail;
+  } else {
+    alert('No email found. Please sign up first.');
+    window.location.href = 'signup.html';
+  }
+
+  const otpForm = document.getElementById("otp-form");
+  otpForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const email = emailInput.value.trim();
+    const otp = otpForm.otp.value.trim();
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      alert("Enter a valid email.");
+      return;
+    }
+    if (!/^\d{6}$/.test(otp)) {
+      alert("OTP must be a 6-digit number.");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp })
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message);
+        sessionStorage.removeItem('signupEmail');
+        window.location.href = 'index.html';  // Redirect to sign-in page or homepage
+      } else {
+        alert(data.error || 'OTP verification failed');
+      }
+    } catch (error) {
+      alert('Something went wrong. Please try again.');
+      console.error(error);
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+header {
+  background-color: #ffffff;
+  padding: 20px 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.branding {
+  display: flex;
+  align-items: center;
+}
+
+.branding img {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+}
+
+.branding h1 {
+  font-size: 24px;
+  color: #333333;
+}
+
+/* Centering the auth box */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-box {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.auth-box h2 {
+  margin-bottom: 24px;
+  color: #333333;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-box button:hover {
+  background-color: #0056b3;
+}
+
+.auth-box p {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #555555;
+}
+
+.auth-box a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.auth-box a:hover {
+  text-decoration: underline;
+}
+
+/* Password input wrapper for toggle eye */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input#password {
+  padding-right: 40px; /* space for eye icon */
+}
+
+
+.password-wrapper input#newPassword {
+  padding-right: 40px; /* space for eye icon */
+}
+#togglePassword {
+  position: absolute;
+  right: 12px;
+  top: 37%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  filter: grayscale(100%) brightness(0);
+  user-select: none;
+}
+
+#toggleResetPassword {
+  position: absolute;
+  right: 12px;
+  top: 37%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  filter: grayscale(100%) brightness(0);
+  user-select: none;
+}
